@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Two Cascades, One Timeline — Global Food Security Monitor, June 2026</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #F7F6F2;
+    --surface:   #FFFFFF;
+    --border:    #D8D5CE;
+    --text-pri:  #1A1917;
+    --text-sec:  #5A5851;
+    --text-ter:  #8E8B83;
+    --red:       #B83230;
+    --red-lt:    #F5E8E8;
+    --orange:    #C96A1A;
+    --orange-lt: #FDF0E3;
+    --blue:      #1F6FAA;
+    --blue-lt:   #E4EEF7;
+    --green:     #1E7A47;
+    --green-lt:  #E5F3EB;
+    --purple:    #6B3A9E;
+    --purple-lt: #EEE6F7;
+    --grey:      #6B6860;
+    --font-mono: 'Courier New', Courier, monospace;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text-pri);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 40px 24px 80px;
+    max-width: 980px;
+    margin: 0 auto;
+  }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    border-top: 3px solid var(--text-pri);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 0 14px;
+    margin-bottom: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .masthead-left { }
+  .pub-name {
+    font-family: Georgia, serif;
+    font-size: 11px;
+    font-weight: normal;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-sec);
+    margin-bottom: 4px;
+  }
+  .issue-label {
+    font-size: 11px;
+    color: var(--text-ter);
+    font-family: var(--font-mono);
+    letter-spacing: 0.04em;
+  }
+  .alert-badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--red);
+    border: 1px solid var(--red);
+    padding: 4px 10px;
+    border-radius: 2px;
+  }
+
+  /* ── HEADLINE BLOCK ── */
+  .headline-block {
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  h1 {
+    font-size: 28px;
+    font-weight: normal;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin-bottom: 10px;
+    max-width: 680px;
+  }
+  .deck {
+    font-size: 15px;
+    color: var(--text-sec);
+    max-width: 620px;
+    line-height: 1.55;
+  }
+
+  /* ── CONFIDENCE KEY ── */
+  .conf-key-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-ter);
+    margin-bottom: 24px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .conf-key-bar span { color: var(--text-sec); }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-sec);
+    font-family: var(--font-mono);
+  }
+  .legend-swatch {
+    width: 24px;
+    height: 11px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  /* ── TIMELINE WRAPPER ── */
+  .tl-outer {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px 24px 28px;
+    overflow-x: auto;
+  }
+
+  .tl-grid {
+    min-width: 680px;
+  }
+
+  /* ── MONTH AXIS ── */
+  .month-row {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    margin-bottom: 8px;
+  }
+  .month-track {
+    position: relative;
+    height: 22px;
+    border-bottom: 1px solid var(--border);
+  }
+  .month-tick {
+    position: absolute;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-ter);
+    transform: translateX(-50%);
+    top: 2px;
+    white-space: nowrap;
+  }
+  .month-tick-line {
+    position: absolute;
+    bottom: 0;
+    width: 1px;
+    height: 5px;
+    background: var(--border);
+    transform: translateX(-50%);
+  }
+
+  /* ── SECTION DIVIDERS ── */
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-ter);
+    grid-column: 1 / -1;
+    padding: 14px 0 4px;
+    border-top: 1px solid var(--border);
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 150px 1fr;
+  }
+  .section-label-text {
+    grid-column: 2;
+  }
+
+  /* ── TRACK ROWS ── */
+  .tl-row {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  .tl-region {
+    font-size: 11.5px;
+    color: var(--text-pri);
+    padding-right: 12px;
+    line-height: 1.3;
+  }
+  .tl-region-sub {
+    font-size: 10px;
+    color: var(--text-ter);
+    font-family: var(--font-mono);
+    display: block;
+    margin-top: 1px;
+  }
+  .tl-track {
+    position: relative;
+    height: 26px;
+  }
+  .tl-bar {
+    position: absolute;
+    top: 3px;
+    height: 20px;
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    transition: filter 0.12s;
+  }
+  .tl-bar:hover { filter: brightness(0.9); }
+  .tl-bar-label {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    color: rgba(255,255,255,0.92);
+    padding: 0 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── NOW LINE ── */
+  .now-line {
+    position: absolute;
+    top: -8px;
+    bottom: -8px;
+    width: 1.5px;
+    background: #B83230;
+    opacity: 0.7;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .now-label {
+    position: absolute;
+    top: -18px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: #B83230;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── TOOLTIP ── */
+  .tooltip {
+    position: fixed;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 12px 15px;
+    font-size: 12.5px;
+    line-height: 1.55;
+    max-width: 300px;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.1s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .tooltip.visible { opacity: 1; }
+  .tt-title {
+    font-size: 12.5px;
+    font-weight: bold;
+    color: var(--text-pri);
+    margin-bottom: 5px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.02em;
+  }
+  .tt-conf {
+    display: inline-block;
+    font-size: 10px;
+    color: var(--text-ter);
+    border: 1px solid var(--border);
+    padding: 1px 5px;
+    border-radius: 2px;
+    margin-left: 6px;
+    font-family: var(--font-mono);
+    vertical-align: middle;
+    font-weight: normal;
+  }
+  .tt-body {
+    color: var(--text-sec);
+    font-family: Georgia, serif;
+    font-size: 12px;
+    line-height: 1.55;
+  }
+
+  /* ── FOOTNOTE ── */
+  .footnote {
+    margin-top: 28px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--text-ter);
+    font-family: var(--font-mono);
+    line-height: 1.6;
+  }
+  .footnote a { color: var(--text-ter); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    body { padding: 24px 14px 60px; }
+    h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-left">
+    <div class="pub-name">Buffers: Food. Crisis. &nbsp;/&nbsp; Global Food Security Monitor</div>
+    <div class="issue-label">Issue 3 &nbsp;·&nbsp; June 8, 2026 &nbsp;·&nbsp; Arrell Food Institute, University of Guelph</div>
+  </div>
+  <div class="alert-badge">&#9679; CRITICAL / RED</div>
+</div>
+
+<div class="headline-block">
+  <h1>Two cascades, one timeline</h1>
+  <p class="deck">The Hormuz disruption and a developing super El&nbsp;Nino are hitting overlapping supply regions on a sequential timeline. The second wave arrives precisely when the system would normally begin recovering from the first. Hover any bar for sourcing and assessment.</p>
+</div>
+
+<div class="conf-key-bar">
+  <div>[O] &nbsp;<span>directly observed / primary data</span></div>
+  <div>[F] &nbsp;<span>institutional forecast or model projection</span></div>
+  <div>[J] &nbsp;<span>analytical judgement</span></div>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-swatch" style="background:#B83230"></div>Confirmed damage [O]</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#C96A1A"></div>Active risk / forecast stress [F]</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#1F6FAA"></div>El Nino exposure [F]</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#1E7A47"></div>Buffer / positive signal [O/F]</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#6B3A9E"></div>Second-wave contingent risk [F/J]</div>
+</div>
+
+<div class="tl-outer">
+  <div class="tl-grid" id="tl-grid">
+
+    <div class="month-row">
+      <div></div>
+      <div class="month-track" id="month-track"></div>
+    </div>
+
+    <div class="section-label"><div class="section-label-text">Hormuz cascade &mdash; supply chain</div></div>
+
+    <div class="tl-row">
+      <div class="tl-region">Strait of Hormuz<span class="tl-region-sub">shipping traffic</span></div>
+      <div class="tl-track" id="track-hormuz"></div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-region">Fertilizer<span class="tl-region-sub">global prices</span></div>
+      <div class="tl-track" id="track-fert"></div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-region">Sub-Saharan Africa<span class="tl-region-sub">planting / harvest</span></div>
+      <div class="tl-track" id="track-ssa"></div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-region">South Asia<span class="tl-region-sub">kharif planting</span></div>
+      <div class="tl-track" id="track-sa"></div>
+    </div>
+
+    <div class="section-label"><div class="section-label-text">US drought layer</div></div>
+
+    <div class="tl-row">
+      <div class="tl-region">US winter wheat<span class="tl-region-sub">harvest</span></div>
+      <div class="tl-track" id="track-wheat"></div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-region">US corn &amp; soy<span class="tl-region-sub">growing season</span></div>
+      <div class="tl-track" id="track-corn"></div>
+    </div>
+
+    <div class="section-label"><div class="section-label-text">El Nino layer &mdash; second-wave risk</div></div>
+
+    <div class="tl-row">
+      <div class="tl-region">India kharif<span class="tl-region-sub">monsoon &amp; harvest</span></div>
+      <div class="tl-track" id="track-india"></div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-region">Australia<span class="tl-region-sub">wheat crop</span></div>
+      <div class="tl-track" id="track-aus"></div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-region">Southern Africa<span class="tl-region-sub">summer grains</span></div>
+      <div class="tl-track" id="track-safrica"></div>
+    </div>
+
+    <div class="section-label"><div class="section-label-text">Price and political stability layer</div></div>
+
+    <div class="tl-row">
+      <div class="tl-region">FAO Food Price Index<span class="tl-region-sub">trajectory</span></div>
+      <div class="tl-track" id="track-ffpi"></div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-region">Political instability<span class="tl-region-sub">key watch dates</span></div>
+      <div class="tl-track" id="track-politics"></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footnote">
+  Sources: FAO Food Price Index (June 5, 2026); USDA WASDE (May 12, 2026); IMD Long Range Forecast second stage (May 29, 2026); NOAA CPC ENSO Diagnostic (May 2026); ACLED South Asia report (June 3, 2026); IMF PortWatch (May 31, 2026); Bloomberg Green Markets (June 8, 2026); WFP Nigeria (June 5, 2026); USDA NASS Crop Progress (June 8, 2026); US Drought Monitor (June 2, 2026); South African Weather Service / Australian Bureau of Meteorology / IRI El Nino projections (April 2026).<br><br>
+  Analytical framework: Geoffrey Parker, <em>Global Crisis</em> (Yale, 2013); E.P. Thompson, "The Moral Economy of the English Crowd" (1971); E.D.G. Fraser, Conservation Ecology (2003).<br><br>
+  &copy; Evan D.G. Fraser / Arrell Food Institute, University of Guelph &nbsp;&middot;&nbsp; <a href="https://evandgfraser.substack.com">evandgfraser.substack.com</a>
+</div>
+
+<div class="tooltip" id="tooltip">
+  <div class="tt-title" id="tt-title"></div>
+  <div class="tt-body" id="tt-body"></div>
+</div>
+
+<script>
+const START = new Date(2026, 1, 28);
+const END   = new Date(2027, 11, 1);
+const TOTAL = (END - START) / 864e5;
+
+function off(y, m, d) {
+  return Math.max(0, (new Date(y, m-1, d) - START) / 864e5);
+}
+function pct(days) { return (days / TOTAL * 100).toFixed(3) + '%'; }
+function span(y1,m1,d1, y2,m2,d2) {
+  const s = off(y1,m1,d1), e = off(y2,m2,d2);
+  return { left: pct(s), width: pct(Math.max(0, e - s)) };
+}
+
+const RED    = '#B83230';
+const ORANGE = '#C96A1A';
+const BLUE   = '#1F6FAA';
+const GREEN  = '#1E7A47';
+const PURPLE = '#6B3A9E';
+
+const tracks = {
+  'track-hormuz': [
+    { ...span(2026,2,28,2026,5,6),  color:RED,    label:'Effectively closed',        conf:'[O]', title:'Hormuz: effectively closed',             body:'Day 1–67. Commercial transit fell to roughly 5% of pre-war levels within two weeks. IRGC mine-laying and vessel attacks. War-risk insurance cancelled by major P&I clubs. 1,550+ vessels stranded, 22,500 mariners trapped (Joint Chiefs, May 6).' },
+    { ...span(2026,5,6, 2026,6,8),  color:ORANGE, label:'Ceasefire / dual blockade', conf:'[O]', title:'Hormuz: ceasefire but dual blockade',       body:'US declared Operation Epic Fury concluded May 6. Traffic remains ~11% of normal as of May 31 (IMF PortWatch). US naval blockade of Iranian ports combined with Iranian restrictions maintains a functional closure. US forces intercepted Iranian missiles targeting the strait June 6. Day 100 of disruption.' },
+    { ...span(2026,6,8, 2027,3,1),  color:ORANGE, label:'Continued constraints [F]', conf:'[F/J]',title:'Hormuz: continued constraints projected',   body:'No structural resolution in sight as of June 8. A full rapid reopening would materially reduce downstream cascade severity but is not the current base case. Even under a quick reopening scenario, urea futures remain elevated through the autumn 2026 procurement cycle.' },
+  ],
+  'track-fert': [
+    { ...span(2026,2,28,2026,4,15), color:RED,    label:'Price spike (+49% YoY)',    conf:'[O]', title:'Fertilizer: price spike',                  body:'Urea surged from ~$450 to $858/tonne (DTN retail) by the second week of April — a 49% year-on-year increase. World Bank confirmed 46% month-on-month rise in March, the sharpest on record. Three simultaneous supply shocks: Hormuz closure, China phosphate export restrictions (through August), and European nitrogen production at 75% capacity.' },
+    { ...span(2026,4,15,2026,6,8),  color:ORANGE, label:'Demand destruction',        conf:'[O]', title:'Fertilizer: demand destruction relief',      body:'Spot urea (New Orleans) fell to $453/tonne by June 8 — back to pre-war levels (Bloomberg Green Markets). This is demand exhaustion as the planting window closes, not supply restoration. Hormuz remains effectively closed. Futures: June $577, July–September ~$550/tonne.' },
+    { ...span(2026,7,1, 2026,9,30), color:ORANGE, label:'Autumn procurement gate',   conf:'[F]', title:'Fertilizer: autumn 2026 procurement window', body:'Brazil begins soybean fertilizer procurement in September 2026. If Hormuz remains constrained, the southern hemisphere 2026/27 season faces the same supply shock that hit the northern hemisphere 2026 season. Hard deadline for cascade resolution. Brazil\'s urea imports were already down 33% in early 2026.' },
+  ],
+  'track-ssa': [
+    { ...span(2026,3,1, 2026,6,30), color:RED,    label:'Planting damage locked in', conf:'[O]', title:'Sub-Saharan Africa: planting damage confirmed', body:'March–June window is now closed. Farmers who entered the season with below-average stress (ASIS 2024 data: Kenya 2.0%, Ethiopia 2.0%, below historical means) but input-dependent recovery faced 49–60% fertilizer price increases. The false calm: good soil moisture, no affordable inputs. Yield damage for the 2026 harvest is already determined. [O for planting window closure; F for yield magnitude]' },
+    { ...span(2026,9,1, 2026,11,30),color:ORANGE, label:'Harvest: decline expected', conf:'[F]', title:'Sub-Saharan Africa: harvest yield decline expected', body:'2022 precedent: a smaller fertilizer shock produced a 16% cereal decline in East Africa and pushed 6–7 million additional people into food insecurity. The current shock is larger. IRC identified June 2026 as an "inflection month." First weak harvest signals should appear in ASIS and FEWS NET data from June onward.' },
+  ],
+  'track-sa': [
+    { ...span(2026,4,1, 2026,7,15), color:RED,    label:'Kharif window: stressed',   conf:'[O]', title:'South Asia: kharif planting under stress', body:'April–July kharif window for Bangladesh, Pakistan, and parts of India. Over 90% of Pakistan and Bangladesh oil and gas imports transit Hormuz. Pakistan fuel price increase second-highest globally. ACLED records 1,200+ cost-of-living demonstrations across South Asia between February 28 and May 29, up from 3 per day before the war to 15 per day now.' },
+  ],
+  'track-wheat': [
+    { ...span(2026,2,1, 2026,5,12), color:RED,    label:'Drought damage accumulates',   conf:'[O]', title:'US winter wheat: drought damage accumulates', body:'Plains drought persisted through winter and spring. Most of the Panhandle in extreme drought through mid-May (US Drought Monitor). Western Kansas in moderate to severe drought. Weather forecasts repeatedly indicated rain relief that did not materialise. Hard red winter wheat prices rose throughout the period.' },
+    { ...span(2026,5,12,2026,8,31), color:RED,    label:'Harvest: lowest since 1965 [O]',conf:'[O]', title:'US winter wheat: confirmed production loss', body:'USDA WASDE (May 12): 1.048 billion bushels — lowest since 1965 and 25% below 2025. Hard red winter wheat down 36%. Kansas yield projected at 37 bushels per acre versus 51 in 2025 (Kansas State University model). Harvest underway June 8: Kansas 15% G/E, Nebraska 5%, Colorado 7%. US Hard Red Winter wheat prices 28% above year-ago levels (FAO, June 5). Confirmed result, not a projection.' },
+  ],
+  'track-corn': [
+    { ...span(2026,5,1, 2026,6,8),  color:GREEN,  label:'Planting ahead of pace',       conf:'[O]', title:'US corn and soy: planting ahead of pace', body:'Corn 93% planted as of June 1, slightly ahead of the 5-year average. Soybean acres up 4% to 84.7 million as farmers substitute toward the nitrogen-fixing crop. First corn condition ratings: 66% good-to-excellent. 67% Midwest fertilizer pre-booking insulated 2026 US row crops from the worst of the price shock.' },
+    { ...span(2026,7,1, 2026,8,31), color:ORANGE, label:'Pollination window — watch',    conf:'[F]', title:'US corn: critical pollination window', body:'July–August is corn pollination, the production make-or-break period. NOAA does not project Corn Belt drought in early summer (April 2026 outlook). However, an Upper Midwest drying trend is developing as of June 2. If it reaches the Corn Belt core during pollination, the 2026 cascade accelerates materially. The July WASDE (~July 11) is the first institutional read on summer crop prospects.' },
+    { ...span(2026,9,1, 2026,10,31),color:GREEN,  label:'Harvest expected [F]',           conf:'[F]', title:'US corn and soy: harvest expected autumn 2026', body:'Absent Corn Belt drought, the 2026 US corn and soybean harvest should provide a partial buffer to global supply. Soybean acreage increase partially offsets the wheat loss in caloric terms, though wheat and soybeans serve different markets.' },
+  ],
+  'track-india': [
+    { ...span(2026,6,4, 2026,9,30), color:BLUE,   label:'Monsoon: below normal [F]',    conf:'[F]', title:'India: below-normal monsoon underway', body:'IMD second-stage forecast (May 29): 90% of Long Period Average, down from 92%. 60% probability of deficient season. Northwest India — Punjab, Haryana, Rajasthan — and the Monsoon Core Zone explicitly forecast below normal. Monsoon onset at Kerala June 4 (3 days late), advancing to Maharashtra and Karnataka by June 8. El Nino is the primary driver per IMD.' },
+    { ...span(2026,10,1,2026,12,31),color:ORANGE, label:'Rabi planting / stock watch',   conf:'[J]', title:'India: rabi season and buffer stock implications', body:'If the kharif harvest disappoints, India\'s domestic wheat and rice stocks (currently ~3x buffer norm) will be drawn down. Wheat export restrictions remain in force. A deficient 2026 kharif followed by a stressed 2027 kharif season — if El Nino persists — could exhaust India\'s buffer by late 2027. [J based on WASDE stock levels and IMD forecast trajectory]' },
+  ],
+  'track-aus': [
+    { ...span(2026,4,1, 2026,7,31), color:BLUE,   label:'Planting: scaling back [O]',   conf:'[O/F]',title:'Australia: wheat and canola planting scaled back', body:'USDA GAIN report (April 28): farmers scaling back wheat and canola planting in NSW and Queensland due to below-average rainfall forecasts and increasing El Nino probability. Cattle sell-offs at record rates as farmers prepare for a dry outlook (ABC News, April 15). Australian wheat enters the ground April–June and is harvested November–January.' },
+    { ...span(2026,11,1,2027,1,31), color:PURPLE, label:'Harvest: El Nino risk [F]',    conf:'[F]', title:'Australia: El Nino harvest risk', body:'Harvest November–January. If El Nino peaks at super-event strength during this cycle, the 2026/27 Australian wheat harvest — normally the world\'s fourth-largest exporter — could compound the US shortfall rather than offset it. This is the key second-wave risk for global wheat supply. ECMWF, NOAA CPC, and the Australian Bureau of Meteorology all project El Nino persisting through Northern Hemisphere winter 2026/27.' },
+  ],
+  'track-safrica': [
+    { ...span(2026,4,1, 2026,9,30), color:GREEN,  label:'La Nina buffer: expiring',     conf:'[O]', title:'Southern Africa: La Nina buffer expiring', body:'South Africa 2025/26 summer grains and oilseeds: 20.3 million tonnes, near the second-largest on record. Strong harvest because La Nina was still active. SAWS, Australian Bureau of Meteorology, and IRI project transition to El Nino in late 2026 and through 2027 (IRI probability over 70%). Zimbabwe already at 85% above its historical mean agricultural stress level entering this transition (FAO ASIS data).' },
+    { ...span(2026,10,1,2027,4,30), color:PURPLE, label:'Planting/harvest: El Nino risk',conf:'[F]', title:'Southern Africa: El Nino planting season risk', body:'Summer crop season opens October 2026. El Nino typically brings below-average rainfall across Southern Africa; in extreme cases, drought. The 2026/27 maize, sorghum, and soybean harvest across Zimbabwe, Zambia, Malawi, Mozambique, and South Africa is the primary second-wave supply risk for the 2027 global food price picture. Strong multi-model consensus on El Nino occurrence; agricultural impact is forecast not confirmed.' },
+  ],
+  'track-ffpi': [
+    { ...span(2026,2,28,2026,6,8),  color:ORANGE, label:'Four-month rise then plateau', conf:'[O]', title:'FAO Food Price Index: four-month rise, plateau in May', body:'Trajectory: Jan 123.9 → Feb 125.3 → Mar 128.5 → Apr 130.7 → May 130.8. April reading was the highest since February 2023. The May plateau reflects falling vegetable oil prices offsetting rising grain prices — not stabilisation in the food security indicators that matter most. Cereal sub-index up 4.9% year-on-year. US Hard Red Winter wheat +28% year-on-year (FAO, June 5, 2026).' },
+    { ...span(2026,8,1, 2026,10,31),color:ORANGE, label:'Price spike projected [F/J]',  conf:'[F/J]',title:'FFPI: price spike projected August–October 2026', body:'Monitor assessment: global food price spike projected as 2026 harvest shortfalls feed through to commodity markets. Maize stocks-to-use at 22% — lowest since 2013/14. Wheat stocks ex-China below 21%. US–China $17 billion purchase commitment announced May 18 adds a demand-side accelerant: a large buyer committing to purchase more from a shrinking supply pool. 2011 analogue: a 40% FFPI spike preceded four government collapses. [F based on WASDE; J on timing]' },
+    { ...span(2026,11,1,2027,6,30), color:PURPLE, label:'2027 second wave: contingent',  conf:'[F/J]',title:'FFPI: 2027 second wave — contingent on El Nino', body:'If El Nino peaks at super-event strength and hits Australian, Southern African, and South Asian crops simultaneously, a second price spike in 2027 is plausible independently of whether Hormuz resolves. This is the convergence risk: a geopolitical supply shock followed by a climate supply shock hitting the crops that would normally serve as the buffer. [J based on El Nino forecast trajectory and regional crop timing]' },
+  ],
+  'track-politics': [
+    { ...span(2026,4,15,2026,4,22), color:RED,    label:'Kenya: fuel protests',         conf:'[O]', title:'Kenya: April fuel price protests', body:'April 15: diesel prices raised 40.30 shillings per litre — steepest single-month increase in over two decades. Protests called April 21. Largely suppressed. Government cut fuel VAT from 16% to 8% (partial Tokugawa response). Corruption frame — officials accused of profiteering from import contracts — now embedded in the political narrative.' },
+    { ...span(2026,5,1, 2026,5,2),  color:ORANGE, label:'Global May Day',               conf:'[O]', title:'Global May Day 2026: coordinated action in 41 countries', body:'ETUC: 93 unions, 41 countries. Unified frame: Iran war costs borne by working people. France: "bread, peace and freedom." Philippines: workers connect local situation to global crisis. Protest frequency increased from roughly 3 per day to 15 per day across South Asia between February 28 and May 29 (ACLED, June 3, 2026).' },
+    { ...span(2026,6,4, 2026,6,5),  color:RED,    label:'Nigeria: Take It Back',        conf:'[O]', title:'Nigeria: Take It Back protests, June 4', body:'US Embassy Abuja security alert issued June 3. First organised named protest movement in Nigeria since monitoring began. Cadre Harmonise: 34.7 million food insecure June–August — highest ever recorded. Lean season now active. WFP projects funding exhaustion December 2026.' },
+    { ...span(2026,6,25,2026,6,26), color:RED,    label:'Kenya June 25',                conf:'[J]', title:'Kenya: June 25 — highest-priority near-term watch date', body:'Kalonzo Musyoka declared June 25 the "mother of all protests." Finance Bill 2026 now in public participation, adding a second major grievance to fuel prices. Government signalling suppression preparations. Annual escalation pattern: 22 killed 2024, 38 killed 2025. Stage 3 formation (Kalonzo Musyoka, Gachagua faction) in progress. [J based on observed signals; outcome not determined]' },
+    { ...span(2026,8,1, 2026,10,31),color:PURPLE, label:'Price spike political risk',   conf:'[J]', title:'Political instability: price spike window', body:'As harvest shortfalls feed through to grocery prices (3–6 month lag from futures), political pressure will intensify across watch countries. Countries with IMF program constraints — Sri Lanka, Pakistan — face a structural constraint: unable to deploy direct relief without breaching fiscal conditions. Nigeria Q3 harvest data is the most likely single precipitant for further escalation. [J]' },
+  ],
+};
+
+function buildMonthAxis() {
+  const el = document.getElementById('month-track');
+  const months = [
+    [2026,3,'Mar 2026'],[2026,5,'May'],[2026,7,'Jul'],[2026,9,'Sep'],
+    [2026,11,'Nov'],[2027,1,'Jan 2027'],[2027,3,'Mar'],[2027,5,'May'],
+    [2027,7,'Jul'],[2027,9,'Sep'],[2027,11,'Nov'],
+  ];
+  months.forEach(([y,m,label]) => {
+    const p = pct(off(y,m,1));
+    const tick = document.createElement('div');
+    tick.className = 'month-tick';
+    tick.style.left = p;
+    tick.textContent = label;
+    el.appendChild(tick);
+    const line = document.createElement('div');
+    line.className = 'month-tick-line';
+    line.style.left = p;
+    el.appendChild(line);
+  });
+}
+
+function buildTracks() {
+  Object.entries(tracks).forEach(([id, bars]) => {
+    const track = document.getElementById(id);
+    if (!track) return;
+    bars.forEach(bar => {
+      const el = document.createElement('div');
+      el.className = 'tl-bar';
+      el.style.left = bar.left;
+      el.style.width = bar.width;
+      el.style.background = bar.color;
+      const lbl = document.createElement('div');
+      lbl.className = 'tl-bar-label';
+      lbl.textContent = bar.label;
+      el.appendChild(lbl);
+      el.addEventListener('mouseenter', e => showTip(e, bar));
+      el.addEventListener('mouseleave', hideTip);
+      el.addEventListener('mousemove', moveTip);
+      track.appendChild(el);
+    });
+  });
+}
+
+function buildNowLine() {
+  const container = document.getElementById('tl-grid');
+  const allTracks = container.querySelectorAll('.tl-track');
+  if (!allTracks.length) return;
+  const p = pct(off(2026,6,8));
+  allTracks.forEach(track => {
+    track.style.position = 'relative';
+    const line = document.createElement('div');
+    line.className = 'now-line';
+    line.style.left = p;
+    if (track === allTracks[0]) {
+      const lbl = document.createElement('div');
+      lbl.className = 'now-label';
+      lbl.textContent = 'TODAY';
+      line.appendChild(lbl);
+    }
+    track.appendChild(line);
+  });
+}
+
+const tip    = document.getElementById('tooltip');
+const ttTitle = document.getElementById('tt-title');
+const ttBody  = document.getElementById('tt-body');
+let active = null;
+
+function showTip(e, bar) {
+  active = bar;
+  ttTitle.innerHTML = bar.title + '<span class="tt-conf">' + bar.conf + '</span>';
+  ttBody.textContent = bar.body;
+  tip.classList.add('visible');
+  moveTip(e);
+}
+function hideTip() { tip.classList.remove('visible'); active = null; }
+function moveTip(e) {
+  if (!active) return;
+  let x = e.clientX + 16, y = e.clientY + 16;
+  if (x + 310 > window.innerWidth)  x = e.clientX - 314;
+  if (y + 200 > window.innerHeight) y = e.clientY - 200;
+  tip.style.left = x + 'px';
+  tip.style.top  = y + 'px';
+}
+
+buildMonthAxis();
+buildTracks();
+buildNowLine();
+</script>
+</body>
+</html>
